@@ -12,7 +12,7 @@ struct HomeView: View {
     
     let screen = UIScreen.main.bounds
     
-    @State private var draggedOffset = CGSize(width: 0, height: UIScreen.main.bounds.height / 1.3)
+    @State private var draggedOffset = CGPoint(x: 0, y: UIScreen.main.bounds.height / 2)
     
     var body: some View {
         
@@ -25,16 +25,17 @@ struct HomeView: View {
                 
               
                     Card()
-                        .offset(y: self.draggedOffset.height)
+                        .frame(width: screen.width, height: screen.height)
+                        .offset(y: draggedOffset.y)
                         .gesture(DragGesture()
                                     .onChanged { value in
-                                        self.draggedOffset = value.translation
+                                        self.draggedOffset = value.location
+                                        print(value.location)
                                     }
-                                    .onEnded { value in
-                                        self.draggedOffset = value.translation
-                                    }
+
                         
                         )
+                        .animation(.spring())
             }
             
             VStack {
@@ -97,6 +98,7 @@ struct Card: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 26)
             .fill(Color(#colorLiteral(red: 0.168627451, green: 0.4, blue: 0.662745098, alpha: 1)))
+            
             .edgesIgnoringSafeArea(.all)
     }
 }

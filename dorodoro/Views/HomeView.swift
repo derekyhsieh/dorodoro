@@ -12,7 +12,7 @@ struct HomeView: View {
     
     let screen = UIScreen.main.bounds
     
-    @State private var draggedOffset = CGPoint(x: 0, y: UIScreen.main.bounds.height / 2)
+    @State private var draggedOffset = CGPoint(x: 0, y: UIScreen.main.bounds.height / 1.2)
     
     var body: some View {
         
@@ -29,8 +29,12 @@ struct HomeView: View {
                         .offset(y: draggedOffset.y)
                         .gesture(DragGesture()
                                     .onChanged { value in
-                                        self.draggedOffset = value.location
-                                        print(value.location)
+                                        
+                                        if value.location.y < screen.height / 1.2 {
+                                            self.draggedOffset = value.location
+                                            
+                                        }
+                                        
                                     }
 
                         
@@ -46,6 +50,7 @@ struct HomeView: View {
                         .bold()
                         .padding()
                         .padding(.leading)
+                        .padding(.top)
                     Spacer()
                 }
                 
@@ -77,6 +82,7 @@ struct HomeView: View {
                 
             }
         }
+        .preferredColorScheme(.dark)
        
     }
 }

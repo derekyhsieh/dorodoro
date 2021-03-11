@@ -7,10 +7,11 @@
 
 import SwiftUI
 
-struct HomeView: View {
+ struct HomeView: View {
     
     
     let screen = UIScreen.main.bounds
+    @Binding var appState: Int
     
     @State private var draggedOffset = CGPoint(x: 0, y: UIScreen.main.bounds.height / 1.2)
     @State private var workTime: Int = 25
@@ -43,7 +44,7 @@ struct HomeView: View {
                         
                         )
                       
-                        .animation(.spring())
+                       
             }
             
             VStack {
@@ -61,7 +62,10 @@ struct HomeView: View {
                 //Play button
                 Spacer()
              
-                Button(action: {}) {
+                Button(action: {
+                    
+                    self.appState = 1
+                }) {
                     Image(systemName: "play.fill")
                         .foregroundColor(.white)
                         .font(.system(size: 110))
@@ -97,15 +101,6 @@ struct HomeView: View {
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            HomeView()
-                .previewDevice("iPhone 12 Pro Max")
-        }
-       
-    }
-}
 
 struct Card: View {
     

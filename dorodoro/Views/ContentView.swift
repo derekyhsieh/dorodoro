@@ -8,8 +8,27 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var appState: Int = 0
     var body: some View {
-     HomeView()
+        
+        VStack {
+        
+            switch appState {
+                case 0:
+                    HomeView(appState: $appState)
+                        .transition(.slide)
+                        .animation(.spring())
+                        
+            case 1:
+                WorkView(appState: $appState)
+                    
+                default:
+                HomeView(appState: $appState)
+            }
+          
+        }
+        
+      
         
     }
 }

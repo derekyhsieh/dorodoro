@@ -13,7 +13,8 @@ struct HomeView: View {
     let screen = UIScreen.main.bounds
     
     @State private var draggedOffset = CGPoint(x: 0, y: UIScreen.main.bounds.height / 1.2)
-    
+    @State private var workTime: Int = 25
+    @State private var breakTime: Int = 6
     var body: some View {
         
         ZStack(alignment: .bottom) {
@@ -30,15 +31,18 @@ struct HomeView: View {
                         .gesture(DragGesture()
                                     .onChanged { value in
                                         
-                                        if value.location.y < screen.height / 1.2 {
+                                        if value.location.y <= screen.height / 1.2 {
                                             self.draggedOffset = value.location
-                                            
+                                            print(value.location)
+                                            self.workTime = Int((screen.height + 100 - self.draggedOffset.y)/10.2)
+                                            self.breakTime = Int(workTime/4)
                                         }
                                         
                                     }
 
                         
                         )
+                      
                         .animation(.spring())
             }
             
@@ -46,7 +50,7 @@ struct HomeView: View {
                 HStack {
                     Text("dorodoro")
                         .foregroundColor(.white)
-                        .font(.largeTitle)
+                        .font(.system(.largeTitle, design: .rounded))
                         .bold()
                         .padding()
                         .padding(.leading)
@@ -77,12 +81,18 @@ struct HomeView: View {
                 
                 Spacer()
                 
+                Text("\(workTime)min work / \(breakTime)min")
+                    .font(.system(.title2, design: .rounded))
+                    .bold()
+                    .padding(.bottom, 50)
                 
               
                 
             }
         }
         .preferredColorScheme(.dark)
+ 
+     
        
     }
 }
@@ -90,8 +100,6 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            HomeView()
-                .previewDevice("iPhone 11")
             HomeView()
                 .previewDevice("iPhone 12 Pro Max")
         }

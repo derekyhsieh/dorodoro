@@ -16,11 +16,13 @@ struct ContentView: View {
             switch appState {
                 case 0:
                     HomeView(appState: $appState)
-                        .transition(.slide)
+                        .transition(AnyTransition.slide)
                         .animation(.spring())
                         
             case 1:
                 WorkView(appState: $appState)
+                    .transition(AnyTransition.slide)
+                    .animation(.spring())
                     
                 default:
                 HomeView(appState: $appState)

@@ -9,23 +9,29 @@ import SwiftUI
 
 struct ContentView: View {
     @State var appState: Int = 0
+    @State var workTime: Int = 25
+    @State var breakTime: Int = 6
     var body: some View {
         
         VStack {
         
             switch appState {
                 case 0:
-                    HomeView(appState: $appState)
+                    HomeView(appState: $appState, workTime: $workTime, breakTime: $breakTime)
                         .transition(AnyTransition.slide)
                         .animation(.spring())
                         
             case 1:
-                WorkView(appState: $appState)
+                WorkView(appState: $appState, timeRemaining: (workTime * 60), fullTime: (workTime * 60))
                     .transition(AnyTransition.slide)
                     .animation(.spring())
-                    
+            case 2:
+                BreakView(appState: $appState, timeRemaining: (breakTime * 60), fullTime: (breakTime * 60))
+                    .transition(AnyTransition.slide)
+                    .animation(.spring())
+
                 default:
-                HomeView(appState: $appState)
+                    HomeView(appState: $appState, workTime: $workTime, breakTime: $breakTime)
             }
           
         }

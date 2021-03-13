@@ -6,16 +6,19 @@
 //
 
 import SwiftUI
+import PermissionsSwiftUI
 
  struct HomeView: View {
     
     
     let screen = UIScreen.main.bounds
     @Binding var appState: Int
-    
+    @State var showPermissions = false
     @State private var draggedOffset = CGPoint(x: 0, y: UIScreen.main.bounds.height / 1.2)
-    @State private var workTime: Int = 25
-    @State private var breakTime: Int = 6
+    @Binding var workTime: Int
+    @Binding var breakTime: Int
+    
+    
     var body: some View {
         
         ZStack(alignment: .bottom) {
@@ -25,7 +28,6 @@ import SwiftUI
             
             VStack {
                 
-              
                     Card()
                         .frame(width: screen.width, height: screen.height)
                         .offset(y: draggedOffset.y)
@@ -95,7 +97,11 @@ import SwiftUI
             }
         }
         .preferredColorScheme(.dark)
- 
+        .onAppear {
+            
+            showPermissions = true
+        }
+        .JMModal(showModal: $showPermissions, for: [.notification])
      
        
     }

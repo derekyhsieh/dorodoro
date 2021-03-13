@@ -6,16 +6,21 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct WorkView: View {
     @Binding var appState: Int
     let screen = UIScreen.main.bounds
-    @State private var draggedOffset = CGPoint(x: 0, y: UIScreen.main.bounds.height / 1.2)
+
+    @State var timeRemaining: Int
+    let fullTime: Int
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State private var sleep = 0
     
     var body: some View {
         ZStack(alignment: .bottom) {
        
-            Color(#colorLiteral(red: 0.931381166, green: 0.3872834444, blue: 0.3862845302, alpha: 1)).edgesIgnoringSafeArea(.all)
+            Color(sleep > 10 ? .black : #colorLiteral(red: 0.931381166, green: 0.3872834444, blue: 0.3862845302, alpha: 1)).edgesIgnoringSafeArea(.all)
             
             
             VStack {
@@ -27,7 +32,7 @@ struct WorkView: View {
                   
                     
                         RoundedRectangle(cornerRadius: 26)
-                                    .fill(Color(#colorLiteral(red: 0.9375395775, green: 0.2406340539, blue: 0.2395618856, alpha: 1)))
+                            .fill(Color(sleep > 10 ? .black : #colorLiteral(red: 0.9375395775, green: 0.2406340539, blue: 0.2395618856, alpha: 1)))
                                     .edgesIgnoringSafeArea(.all)
                             .frame(width: screen.width, height: screen.height/8)
                                     
@@ -73,20 +78,58 @@ struct WorkView: View {
              
                 Button(action: {
                     
-                    self.appState = 1
+                    if self.sleep > 10 {
+//                        sleep = 0
+                    }
                 }) {
-                    Text("24 : 59")
-                        .foregroundColor(.white)
-                        .font(.system(size: 65, design: .rounded))
-                        .bold()
+                    
+                   
+                    HStack {
                         
-                        .overlay(
-                                Circle()
-                                    .stroke(Color.white, lineWidth: 4)
-                                    .frame(width: 300, height: 300)
-                                
-                                   
-                            )
+                        if sleep > 10 {
+                            if timeRemaining > 60 {
+                                Text("\(secondsToMinutes(seconds: self.timeRemaining))")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 70, design: .rounded))
+                                    .bold()
+                            } else {
+                                Text("\(secondsToMinutesAndSeconds(seconds: self.timeRemaining))")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 70, design: .rounded))
+                                    .bold()
+                            }
+                          
+                        } else {
+                            Text("\(secondsToMinutes(seconds: self.timeRemaining))")
+                                .foregroundColor(.white)
+                                .font(.system(size: 70, design: .rounded))
+                                .bold()
+                            Text(":")
+                                .foregroundColor(.white)
+                                .font(.system(size: 65, design: .rounded))
+                                .bold()
+                            
+                            Text("\(secondsToMinutesAndSeconds(seconds: self.timeRemaining))")
+                                .foregroundColor(.white)
+                                .font(.system(size: 70, design: .rounded))
+                                .bold()
+                        }
+                
+                        
+                            
+                    }
+                    .animation(fullTime > timeRemaining ? .none : .spring())
+                            .overlay(
+                                    Circle()
+                                        .trim(from: CGFloat(Float(fullTime - timeRemaining)/Float(fullTime)), to: 1)
+                                        .stroke(style: StrokeStyle(lineWidth: 8.0, lineCap: .round))
+                                        .foregroundColor(.white)
+                                        .rotationEffect(.degrees(270), anchor: .center)
+                                        .frame(width: 300, height: 300)
+                                        
+                                       
+                        )
+                    
                 }
                 
                 
@@ -97,15 +140,76 @@ struct WorkView: View {
                     .bold()
                     .padding(.bottom, 50)
                 
-                
             }
+            
+         
+            
+       
+          
+        }
+        .onReceive(self.timer) { (_) in
+            if self.timeRemaining > 0 {
+                self.timeRemaining -= 1
+                self.sleep += 1
+            } else {
+                UIApplication.shared.isIdleTimerDisabled = false
+                appState = 2
+                sendNotification(title: "Work period is over", subtitle: "Take a short break", timeInterval: 1)
+            }
+                      
         }
         .preferredColorScheme(.dark)
+        .onTapGesture {
+            if self.sleep > 10 {
+                sleep = 0
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification), perform: { _ in
+            print("user left")
+            sendNotification(title: "Stay Focused", subtitle: "Please stay in the app until the work period is over", timeInterval: 5)
+        })
+        .onAppear {
+            UIApplication.shared.isIdleTimerDisabled = true
+        }
+        
     }
+    
+    func sendNotification(title: String, subtitle: String, timeInterval: TimeInterval) {
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.subtitle = subtitle
+        content.sound = UNNotificationSound.default
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request)
+        
+    }
+    
+    
+    func secondsToMinutes(seconds: Int) -> String {
+        let min = Int(seconds/60)
+        return "\(min)"
+    }
+    
+    func secondsToMinutesAndSeconds(seconds: Int) -> String {
+        let min = Int(seconds/60)
+        let secs = seconds - (min * 60)
+        
+        if secs == 0 {
+            return "00"
+        } else if secs < 10 {
+            return "0\(secs)"
+        }
+        
+        return "\(secs)"
+    }
+    
 }
 
 struct WorkView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkView(appState: .constant(1))
+        WorkView(appState: .constant(1), timeRemaining: 5, fullTime: 5)
     }
 }

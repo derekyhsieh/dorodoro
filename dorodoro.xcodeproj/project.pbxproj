@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,7 +14,9 @@
 		4BC4AA1225F9E7840052507A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BC4AA1125F9E7840052507A /* Preview Assets.xcassets */; };
 		4BC4AA1525F9E7840052507A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC4AA1325F9E7840052507A /* LaunchScreen.storyboard */; };
 		4BC4AA2025F9ECAA0052507A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC4AA1F25F9ECAA0052507A /* HomeView.swift */; };
+		6592893925FC8E1400F378F7 /* PermissionsSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6592893825FC8E1400F378F7 /* PermissionsSwiftUI */; };
 		65CFD4F725FA99A8003963C7 /* WorkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CFD4F625FA99A8003963C7 /* WorkView.swift */; };
+		65F0D17425FC75640079B6A9 /* BreakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F0D17325FC75640079B6A9 /* BreakView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,7 @@
 		4BC4AA1625F9E7840052507A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4BC4AA1F25F9ECAA0052507A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		65CFD4F625FA99A8003963C7 /* WorkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkView.swift; sourceTree = "<group>"; };
+		65F0D17325FC75640079B6A9 /* BreakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6592893925FC8E1400F378F7 /* PermissionsSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +89,7 @@
 				4BC4AA0C25F9E7820052507A /* ContentView.swift */,
 				4BC4AA1F25F9ECAA0052507A /* HomeView.swift */,
 				65CFD4F625FA99A8003963C7 /* WorkView.swift */,
+				65F0D17325FC75640079B6A9 /* BreakView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -105,6 +110,9 @@
 			dependencies = (
 			);
 			name = dorodoro;
+			packageProductDependencies = (
+				6592893825FC8E1400F378F7 /* PermissionsSwiftUI */,
+			);
 			productName = dorodoro;
 			productReference = 4BC4AA0525F9E7820052507A /* dorodoro.app */;
 			productType = "com.apple.product-type.application";
@@ -132,6 +140,9 @@
 				Base,
 			);
 			mainGroup = 4BC4A9FC25F9E7810052507A;
+			packageReferences = (
+				6592893725FC8E1400F378F7 /* XCRemoteSwiftPackageReference "PermissionsSwiftUI" */,
+			);
 			productRefGroup = 4BC4AA0625F9E7820052507A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -159,6 +170,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65F0D17425FC75640079B6A9 /* BreakView.swift in Sources */,
 				4BC4AA0925F9E7820052507A /* AppDelegate.swift in Sources */,
 				4BC4AA2025F9ECAA0052507A /* HomeView.swift in Sources */,
 				4BC4AA0B25F9E7820052507A /* SceneDelegate.swift in Sources */,
@@ -363,6 +375,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6592893725FC8E1400F378F7 /* XCRemoteSwiftPackageReference "PermissionsSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jevonmao/PermissionsSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6592893825FC8E1400F378F7 /* PermissionsSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6592893725FC8E1400F378F7 /* XCRemoteSwiftPackageReference "PermissionsSwiftUI" */;
+			productName = PermissionsSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4BC4A9FD25F9E7820052507A /* Project object */;
 }

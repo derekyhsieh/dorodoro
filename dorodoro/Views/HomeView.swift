@@ -23,7 +23,7 @@ import PermissionsSwiftUI
         
         ZStack(alignment: .bottom) {
        
-            Color(#colorLiteral(red: 0.3490196078, green: 0.6509803922, blue: 0.8862745098, alpha: 1)).edgesIgnoringSafeArea(.all)
+            Color(#colorLiteral(red: 0, green: 0.8212131262, blue: 0.328142643, alpha: 1)).edgesIgnoringSafeArea(.all)
             
             
             VStack {
@@ -100,9 +100,10 @@ import PermissionsSwiftUI
         .onAppear {
             
             showPermissions = true
+            
         }
         .JMModal(showModal: $showPermissions, for: [.notification])
-     
+        
        
     }
 }
@@ -112,7 +113,7 @@ struct Card: View {
     
     var body: some View {
         RoundedRectangle(cornerRadius: 26)
-            .fill(Color(#colorLiteral(red: 0.168627451, green: 0.4, blue: 0.662745098, alpha: 1)))
+            .fill(Color(#colorLiteral(red: 0, green: 0.6584398746, blue: 0.07515304536, alpha: 1)))
             
             .edgesIgnoringSafeArea(.all)
     }

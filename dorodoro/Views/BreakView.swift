@@ -1,26 +1,26 @@
 //
-//  WorkView.swift
+//  BreakView.swift
 //  dorodoro
 //
-//  Created by Derek Hsieh on 3/11/21.
+//  Created by Derek Hsieh on 3/12/21.
 //
 
 import SwiftUI
-import UserNotifications
 
-struct WorkView: View {
+struct BreakView: View {
     @Binding var appState: Int
     let screen = UIScreen.main.bounds
 
     @State var timeRemaining: Int
     let fullTime: Int
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    @State private var sleep = 0
+    @State var sentBreakNotification = false
+    @State private var leftDateTime = Date()
     
     var body: some View {
         ZStack(alignment: .bottom) {
        
-            Color(sleep > 10 ? .black : #colorLiteral(red: 0.931381166, green: 0.3872834444, blue: 0.3862845302, alpha: 1)).edgesIgnoringSafeArea(.all)
+            Color(#colorLiteral(red: 0.3074240088, green: 0.6465219855, blue: 0.8867322803, alpha: 1)).edgesIgnoringSafeArea(.all)
             
             
             VStack {
@@ -32,7 +32,7 @@ struct WorkView: View {
                   
                     
                         RoundedRectangle(cornerRadius: 26)
-                            .fill(Color(sleep > 10 ? .black : #colorLiteral(red: 0.9375395775, green: 0.2406340539, blue: 0.2395618856, alpha: 1)))
+                            .fill(Color(#colorLiteral(red: 0.1468301713, green: 0.540907383, blue: 0.9414213896, alpha: 1)))
                                     .edgesIgnoringSafeArea(.all)
                             .frame(width: screen.width, height: screen.height/8)
                                     
@@ -64,7 +64,7 @@ struct WorkView: View {
             
             VStack {
                 HStack {
-                    Text("work")
+                    Text("break")
                         .foregroundColor(.white)
                         .font(.system(.largeTitle, design: .rounded))
                         .bold()
@@ -78,28 +78,13 @@ struct WorkView: View {
              
                 Button(action: {
                     
-                    if self.sleep > 10 {
-//                        sleep = 0
-                    }
+               
                 }) {
                     
                    
                     HStack {
                         
-                        if sleep > 10 {
-                            if timeRemaining > 60 {
-                                Text("\(secondsToMinutes(seconds: self.timeRemaining))")
-                                    .foregroundColor(.white)
-                                    .font(.system(size: 70, design: .rounded))
-                                    .bold()
-                            } else {
-                                Text("\(secondsToMinutesAndSeconds(seconds: self.timeRemaining))")
-                                    .foregroundColor(.white)
-                                    .font(.system(size: 70, design: .rounded))
-                                    .bold()
-                            }
-                          
-                        } else {
+                     
                             Text("\(secondsToMinutes(seconds: self.timeRemaining))")
                                 .foregroundColor(.white)
                                 .font(.system(size: 70, design: .rounded))
@@ -113,7 +98,6 @@ struct WorkView: View {
                                 .foregroundColor(.white)
                                 .font(.system(size: 70, design: .rounded))
                                 .bold()
-                        }
                 
                         
                             
@@ -147,33 +131,56 @@ struct WorkView: View {
        
           
         }
+        .onAppear {
+            
+            
+            playSound(sound: "success", type: "mp3")
+            sendNotification(title: "Work period is over", subtitle: "Take a short break", timeInterval: 1)
+            sendNotification(title: "break is over", subtitle: "Let's get back to work", timeInterval: TimeInterval(fullTime))
+            
+        }
         .onReceive(self.timer) { (_) in
             if self.timeRemaining > 0 {
+                
                 self.timeRemaining -= 1
-                self.sleep += 1
+                print(self.timeRemaining)
+                
             } else {
-                UIApplication.shared.isIdleTimerDisabled = false
-                appState = 2
-               
+         
+                appState = 0
             }
                       
         }
         .preferredColorScheme(.dark)
-        .onTapGesture {
-            if self.sleep > 10 {
-                sleep = 0
-            }
-        }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification), perform: { _ in
-            print("user left")
-            sendNotification(title: "Stay Focused", subtitle: "Please stay in the app until the work period is over", timeInterval: 2)
+            self.leftDateTime = Date()
+            
+                let formatter = DateFormatter()
+                formatter.timeStyle = .long
+                formatter.dateStyle = .medium
+            
+            print(formatter.string(from: leftDateTime))
         })
-        .onAppear {
-            UIApplication.shared.isIdleTimerDisabled = true
-        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification), perform: { _ in
+            
+            let currentDateTime = Date()
+            
+            let difference = Calendar.current.dateComponents([.second], from: leftDateTime, to: currentDateTime)
+            
+            if self.timeRemaining - (difference.second ?? 0) < 0 {
+                self.timeRemaining = 0
+            } else {
+                self.timeRemaining -= difference.second ?? 0
+            }
+         
+            
+            
+        })
+
         
     }
     
+
     
     
     func secondsToMinutes(seconds: Int) -> String {
@@ -193,11 +200,10 @@ struct WorkView: View {
         
         return "\(secs)"
     }
-    
 }
 
-struct WorkView_Previews: PreviewProvider {
+struct BreakView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkView(appState: .constant(1), timeRemaining: 5, fullTime: 5)
+        BreakView(appState: .constant(2), timeRemaining: 30, fullTime: 30)
     }
 }

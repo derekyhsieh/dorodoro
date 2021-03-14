@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,7 +15,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        return true
+        UIApplication.shared.setMinimumBackgroundFetchInterval(10)
+
+          return true
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
+           } catch {
+               print("AVAudioSessionCategoryPlayback not work")
+           }
     }
 
     // MARK: UISceneSession Lifecycle

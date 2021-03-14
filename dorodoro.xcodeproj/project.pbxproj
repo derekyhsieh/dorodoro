@@ -15,6 +15,9 @@
 		4BC4AA1525F9E7840052507A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC4AA1325F9E7840052507A /* LaunchScreen.storyboard */; };
 		4BC4AA2025F9ECAA0052507A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC4AA1F25F9ECAA0052507A /* HomeView.swift */; };
 		6592893925FC8E1400F378F7 /* PermissionsSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6592893825FC8E1400F378F7 /* PermissionsSwiftUI */; };
+		65C3180F25FD4B0600A073FC /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C3180E25FD4B0600A073FC /* Notification.swift */; };
+		65C3181625FD5C3000A073FC /* success.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 65C3181525FD5C3000A073FC /* success.mp3 */; };
+		65C3181A25FD5C6900A073FC /* PlaySound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C3181925FD5C6900A073FC /* PlaySound.swift */; };
 		65CFD4F725FA99A8003963C7 /* WorkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CFD4F625FA99A8003963C7 /* WorkView.swift */; };
 		65F0D17425FC75640079B6A9 /* BreakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F0D17325FC75640079B6A9 /* BreakView.swift */; };
 /* End PBXBuildFile section */
@@ -29,6 +32,9 @@
 		4BC4AA1425F9E7840052507A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4BC4AA1625F9E7840052507A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4BC4AA1F25F9ECAA0052507A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		65C3180E25FD4B0600A073FC /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Notification.swift; path = ../../../Notification.swift; sourceTree = "<group>"; };
+		65C3181525FD5C3000A073FC /* success.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = success.mp3; path = ../../../Downloads/success.mp3; sourceTree = "<group>"; };
+		65C3181925FD5C6900A073FC /* PlaySound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaySound.swift; sourceTree = "<group>"; };
 		65CFD4F625FA99A8003963C7 /* WorkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkView.swift; sourceTree = "<group>"; };
 		65F0D17325FC75640079B6A9 /* BreakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -64,6 +70,9 @@
 		4BC4AA0725F9E7820052507A /* dorodoro */ = {
 			isa = PBXGroup;
 			children = (
+				65C3181525FD5C3000A073FC /* success.mp3 */,
+				65C3181925FD5C6900A073FC /* PlaySound.swift */,
+				65C3180D25FD4AF600A073FC /* Helper */,
 				4BC4AA0825F9E7820052507A /* AppDelegate.swift */,
 				4BC4AA0A25F9E7820052507A /* SceneDelegate.swift */,
 				4BC4AA0E25F9E7840052507A /* Assets.xcassets */,
@@ -92,6 +101,14 @@
 				65F0D17325FC75640079B6A9 /* BreakView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		65C3180D25FD4AF600A073FC /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				65C3180E25FD4B0600A073FC /* Notification.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -159,6 +176,7 @@
 			files = (
 				4BC4AA1525F9E7840052507A /* LaunchScreen.storyboard in Resources */,
 				4BC4AA1225F9E7840052507A /* Preview Assets.xcassets in Resources */,
+				65C3181625FD5C3000A073FC /* success.mp3 in Resources */,
 				4BC4AA0F25F9E7840052507A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -171,8 +189,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				65F0D17425FC75640079B6A9 /* BreakView.swift in Sources */,
+				65C3181A25FD5C6900A073FC /* PlaySound.swift in Sources */,
 				4BC4AA0925F9E7820052507A /* AppDelegate.swift in Sources */,
 				4BC4AA2025F9ECAA0052507A /* HomeView.swift in Sources */,
+				65C3180F25FD4B0600A073FC /* Notification.swift in Sources */,
 				4BC4AA0B25F9E7820052507A /* SceneDelegate.swift in Sources */,
 				65CFD4F725FA99A8003963C7 /* WorkView.swift in Sources */,
 				4BC4AA0D25F9E7820052507A /* ContentView.swift in Sources */,

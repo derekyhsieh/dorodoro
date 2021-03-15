@@ -26,7 +26,7 @@ struct ContentView: View {
                     .transition(AnyTransition.slide)
                     .animation(.spring())
             case 2:
-                BreakView(appState: $appState, timeRemaining: (breakTime * 60), fullTime: (breakTime * 60))
+                BreakView(appState: $appState, workTime: $workTime, timeRemaining: (breakTime * 60), fullTime: (breakTime * 60))
                     .transition(AnyTransition.slide)
                     .animation(.spring())
 

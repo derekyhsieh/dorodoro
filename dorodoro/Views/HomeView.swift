@@ -17,6 +17,7 @@ import PermissionsSwiftUI
     @State private var draggedOffset = CGPoint(x: 0, y: UIScreen.main.bounds.height / 1.2)
     @Binding var workTime: Int
     @Binding var breakTime: Int
+    @ObservedObject var savedDefaults = SavedDefaults()
     
     
     var body: some View {
@@ -30,7 +31,7 @@ import PermissionsSwiftUI
                 
                     Card()
                         .frame(width: screen.width, height: screen.height)
-                        .offset(y: draggedOffset.y)
+                        .offset(y: self.draggedOffset.y)
                         .gesture(DragGesture()
                                     .onChanged { value in
                                         
@@ -65,7 +66,7 @@ import PermissionsSwiftUI
                 Spacer()
              
                 Button(action: {
-                    
+                    savedDefaults.updateDraggedOffset(offset: Float(draggedOffset.y))
                     self.appState = 1
                 }) {
                     Image(systemName: "play.fill")
@@ -99,7 +100,16 @@ import PermissionsSwiftUI
         .preferredColorScheme(.dark)
         .onAppear {
             
+            self.draggedOffset.y = CGFloat(savedDefaults.draggedOffset)
             showPermissions = true
+            self.workTime = Int((screen.height + 100 - self.draggedOffset.y)/10.2) < 25 ? 25 :  Int((screen.height + 100 - self.draggedOffset.y)/10.2)
+            
+               
+            
+                
+            self.breakTime = Int(workTime/4)
+            
+            
             
         }
         .JMModal(showModal: $showPermissions, for: [.notification])

@@ -9,8 +9,9 @@ import SwiftUI
 
 struct BreakView: View {
     @Binding var appState: Int
+    @Binding var workTime: Int
     let screen = UIScreen.main.bounds
-
+    @State private var showCompletedWorkPopup = false
     @State var timeRemaining: Int
     let fullTime: Int
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -126,7 +127,10 @@ struct BreakView: View {
                 
             }
             
-         
+            if showCompletedWorkPopup {
+                CustomAlertView(appState: $appState, show: $showCompletedWorkPopup, workMinutes: workTime)
+                    .edgesIgnoringSafeArea(.all)
+            }
             
        
           
@@ -146,8 +150,8 @@ struct BreakView: View {
                 print(self.timeRemaining)
                 
             } else {
-         
-                appState = 0
+
+                showCompletedWorkPopup = true
             }
                       
         }
@@ -204,6 +208,7 @@ struct BreakView: View {
 
 struct BreakView_Previews: PreviewProvider {
     static var previews: some View {
-        BreakView(appState: .constant(2), timeRemaining: 30, fullTime: 30)
+        BreakView(appState: .constant(2), workTime: .constant(2), timeRemaining: 2, fullTime: 2)
+            .preferredColorScheme(.dark)
     }
 }

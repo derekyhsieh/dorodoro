@@ -27,42 +27,58 @@ struct CancelAlertView: View {
         ZStack(alignment: Alignment(horizontal: .trailing, vertical: .top)){
             VStack (spacing: 25) {
                 Image(systemName: "xmark")
-                    .foregroundColor(.white)
+                    .foregroundColor(.pink)
+                    .font(.system(size: 35, weight: .bold))
                     .font(.largeTitle)
-                Text("Leave")
+                Text("Leave?")
                     .font(.title)
                     .bold()
                     .foregroundColor(.pink)
-                Text("If You Leave Now, You'll Lose \(workMinutes) Minutes of Work")
+                Text("If You Leave Now, You'll Lose \(workMinutes + 1) Minute\(workMinutes + 1 == 1 ? "" : "s") of Work")
                     .bold()
+                    .multilineTextAlignment(.center)
                 
                 HStack {
                     Button(action: {
-                        
-                        appState = 0
+                        withAnimation {
+                            
+                            show.toggle()
+                            appState = 0
+                        }
+                       
                         
                     }) {
-                        Text("Back To Home")
+                        Text("Leave")
+                            .bold()
                             .foregroundColor(.white)
                             .padding(.vertical, 10)
                             .padding(.horizontal, 25)
                             .background(Color.red)
                             .clipShape(Capsule())
+                            .frame(maxWidth: .infinity)
                     }
                     
                     Button(action: {
                         
-                        show.toggle()
+                        withAnimation {
+                            
+                            
+                            show.toggle()
+                        }
                         
                     }) {
                         Text("Cancel")
+                            .bold()
                             .foregroundColor(.white)
                             .padding(.vertical, 10)
                             .padding(.horizontal, 25)
                             .background(Color.green)
                             .clipShape(Capsule())
+                            .frame(maxWidth: .infinity)
                     }
                 }
+//                .fixedSize(horizontal: true, vertical: false)
+                .frame(maxWidth: UIScreen.main.bounds.width - 150)
                 
        
             }

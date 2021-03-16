@@ -146,7 +146,7 @@ struct WorkView: View {
          
             
             if showCancelView {
-                CancelAlertView(appState: $appState, show: $showCancelView, workMinutes: Int(secondsToMinutes(seconds: timeRemaining)) ?? 0)
+                CancelAlertView(appState: $appState, show: $showCancelView, workMinutes: Int(secondsToMinutes(seconds: fullTime - timeRemaining)) ?? 0)
                     .edgesIgnoringSafeArea(.all)
             }
        

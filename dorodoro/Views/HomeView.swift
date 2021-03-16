@@ -99,8 +99,16 @@ import PermissionsSwiftUI
         }
         .preferredColorScheme(.dark)
         .onAppear {
-            self.draggedOffset = UserDefaults.standard.double(forKey: "draggedOffset")
-            print(UserDefaults.standard.double(forKey: "draggedOffset"))
+            
+            // check if is first time logging in
+            
+            if UserDefaults.standard.bool(forKey: "First Launch") == true {
+                self.draggedOffset = UserDefaults.standard.double(forKey: "draggedOffset")
+            } else {
+                UserDefaults.standard.setValue(true, forKey: "First Launch")
+            }
+            
+           
             showPermissions = true
             self.workTime = Int((Double(screen.height + 100) - self.draggedOffset)/10.2) < 25 ? 25 :  Int((Double(screen.height) + 100 - self.draggedOffset)/10.2)
            

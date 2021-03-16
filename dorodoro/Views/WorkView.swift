@@ -11,6 +11,7 @@ import UserNotifications
 struct WorkView: View {
     @Binding var appState: Int
     let screen = UIScreen.main.bounds
+    @State var showCancelView = false
 
     @State var timeRemaining: Int
     let fullTime: Int
@@ -26,7 +27,7 @@ struct WorkView: View {
             VStack {
                 
                 Button(action: {
-                    
+                    showCancelView = true
                 }) {
                     
                   
@@ -144,6 +145,10 @@ struct WorkView: View {
             
          
             
+            if showCancelView {
+                CancelAlertView(appState: $appState, show: $showCancelView, workMinutes: Int(secondsToMinutes(seconds: timeRemaining)) ?? 0)
+                    .edgesIgnoringSafeArea(.all)
+            }
        
           
         }

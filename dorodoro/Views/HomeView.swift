@@ -14,10 +14,9 @@ import PermissionsSwiftUI
     let screen = UIScreen.main.bounds
     @Binding var appState: Int
     @State var showPermissions = false
-    @State private var draggedOffset = CGPoint(x: 0, y: UIScreen.main.bounds.height / 1.2)
+    @State var draggedOffset = Double(UIScreen.main.bounds.height / 1.2)
     @Binding var workTime: Int
     @Binding var breakTime: Int
-    @ObservedObject var savedDefaults = SavedDefaults()
     
     
     var body: some View {
@@ -31,14 +30,14 @@ import PermissionsSwiftUI
                 
                     Card()
                         .frame(width: screen.width, height: screen.height)
-                        .offset(y: self.draggedOffset.y)
+                        .offset(y: CGFloat(self.draggedOffset))
                         .gesture(DragGesture()
                                     .onChanged { value in
                                         
                                         if value.location.y <= screen.height / 1.2 {
-                                            self.draggedOffset = value.location
-                                            print(value.location)
-                                            self.workTime = Int((screen.height + 100 - self.draggedOffset.y)/10.2)
+                                            draggedOffset = Double(value.location.y)
+                                            
+                                            self.workTime = Int((Double(screen.height + 100) - self.draggedOffset)/10.2)
                                             self.breakTime = Int(workTime/4)
                                         }
                                         
@@ -66,7 +65,8 @@ import PermissionsSwiftUI
                 Spacer()
              
                 Button(action: {
-                    savedDefaults.updateDraggedOffset(offset: Float(draggedOffset.y))
+                    UserDefaults.standard.setValue(draggedOffset, forKey: "draggedOffset")
+                    print("user defaults is \(UserDefaults.standard.double(forKey: "draggedOffset"))")
                     self.appState = 1
                 }) {
                     Image(systemName: "play.fill")
@@ -99,11 +99,11 @@ import PermissionsSwiftUI
         }
         .preferredColorScheme(.dark)
         .onAppear {
-            
-            self.draggedOffset.y = CGFloat(savedDefaults.draggedOffset)
+            self.draggedOffset = UserDefaults.standard.double(forKey: "draggedOffset")
+            print(UserDefaults.standard.double(forKey: "draggedOffset"))
             showPermissions = true
-            self.workTime = Int((screen.height + 100 - self.draggedOffset.y)/10.2) < 25 ? 25 :  Int((screen.height + 100 - self.draggedOffset.y)/10.2)
-            
+            self.workTime = Int((Double(screen.height + 100) - self.draggedOffset)/10.2) < 25 ? 25 :  Int((Double(screen.height) + 100 - self.draggedOffset)/10.2)
+           
                
             
                 

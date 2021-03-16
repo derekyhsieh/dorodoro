@@ -27,7 +27,7 @@ struct BreakView: View {
             VStack {
                 
                 Button(action: {
-                    
+                 appState = 0
                 }) {
                     
                   

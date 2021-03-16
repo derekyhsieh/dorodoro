@@ -103,6 +103,7 @@ struct CancelAlertView: View {
 }
 
 struct CustomAlertView: View {
+    @AppStorage("WorkMinutesTotal") var WorkMinutesTotal = 0
     @Binding var appState: Int
     @Binding var show: Bool
     var workMinutes: Int
@@ -120,7 +121,9 @@ struct CustomAlertView: View {
                 
                 Button(action: {
                     
+                    WorkMinutesTotal += workMinutes
                     appState = 0
+                    
                     
                 }) {
                     Text("Back To Home")
@@ -142,7 +145,7 @@ struct CustomAlertView: View {
                         .onTapGesture {
                             withAnimation {
                                 
-                                
+                                WorkMinutesTotal += workMinutes
                                 appState = 0
                                 show.toggle()
                             }

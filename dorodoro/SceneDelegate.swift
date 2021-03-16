@@ -22,10 +22,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
+            
             let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = DarkHostingController(rootView: ContentView())
-            self.window = window
-            window.makeKeyAndVisible()
+            
+            let workTotalMinutes = UserDefaults.standard.integer(forKey: "WorkMinutesTotal")
+            
+            if workTotalMinutes > 150 &&  workTotalMinutes < 501 {
+                
+                
+                    window.rootViewController = UIHostingController(rootView: ContentView())
+                    self.window = window
+                    window.makeKeyAndVisible()
+                
+            } else {
+                
+                    window.rootViewController = DarkHostingController(rootView: ContentView())
+                    self.window = window
+                    window.makeKeyAndVisible()
+            }
+            
+            
+          
         }
     }
 

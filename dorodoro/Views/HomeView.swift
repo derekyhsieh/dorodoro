@@ -15,6 +15,7 @@ import PermissionsSwiftUI
     @Binding var appState: Int
     @State var showPermissions = false
     @State var draggedOffset = Double(UIScreen.main.bounds.height / 1.2)
+    @AppStorage("WorkMinutesTotal") var WorkMinutesTotal = 0
     @Binding var workTime: Int
     @Binding var breakTime: Int
     
@@ -23,12 +24,14 @@ import PermissionsSwiftUI
         
         ZStack(alignment: .bottom) {
        
-            Color(#colorLiteral(red: 0, green: 0.8212131262, blue: 0.328142643, alpha: 1)).edgesIgnoringSafeArea(.all)
+            Color(returnColorForTotalWorkTime(totalWorkTime: WorkMinutesTotal).first!).edgesIgnoringSafeArea(.all)
             
             
             VStack {
                 
-                    Card()
+                RoundedRectangle(cornerRadius: 26)
+                        .fill(Color(returnColorForTotalWorkTime(totalWorkTime: WorkMinutesTotal)[1]))
+                        .edgesIgnoringSafeArea(.all)
                         .frame(width: screen.width, height: screen.height)
                         .offset(y: CGFloat(self.draggedOffset))
                         .gesture(DragGesture()
@@ -52,7 +55,7 @@ import PermissionsSwiftUI
             VStack {
                 HStack {
                     Text("dorodoro")
-                        .foregroundColor(.white)
+                        .foregroundColor(WorkMinutesTotal > 150 && WorkMinutesTotal < 501 ? .black : .white)
                         .font(.system(.largeTitle, design: .rounded))
                         .bold()
                         .padding()
@@ -69,20 +72,16 @@ import PermissionsSwiftUI
                     print("user defaults is \(UserDefaults.standard.double(forKey: "draggedOffset"))")
                     self.appState = 1
                 }) {
-                    Image(systemName: "play.fill")
-                        .foregroundColor(.white)
+                    Image(systemName: "play")
+                        .foregroundColor(WorkMinutesTotal > 150 && WorkMinutesTotal < 501 ? .black : .white)
                         .font(.system(size: 110))
                         .overlay(
                                 Circle()
-                                    .stroke(Color.white, lineWidth: 4)
-                                    .frame(width: 150, height: 150)
-                                    .overlay(
-                                        Circle()
-                                            .stroke(Color.white, lineWidth: 4)
-                                            .frame(width: 200, height: 200)
-                                    )
-                                   
-                            )
+                                    .stroke(Color(WorkMinutesTotal > 150 && WorkMinutesTotal < 501 ? .black : .white), lineWidth: 8)
+                                    .frame(width: 200, height: 200)
+                        )
+                                  
+                            
                 }
                 
                 
@@ -92,12 +91,13 @@ import PermissionsSwiftUI
                     .font(.system(.title2, design: .rounded))
                     .bold()
                     .padding(.bottom, 50)
+                    .foregroundColor(WorkMinutesTotal > 150 && WorkMinutesTotal < 501 ? .black : .white)
                 
               
                 
             }
         }
-        .preferredColorScheme(.dark)
+ 
         .onAppear {
             
             // check if is first time logging in
@@ -124,17 +124,23 @@ import PermissionsSwiftUI
         
        
     }
-}
-
-
-struct Card: View {
     
-    var body: some View {
-        RoundedRectangle(cornerRadius: 26)
-            .fill(Color(#colorLiteral(red: 0, green: 0.6584398746, blue: 0.07515304536, alpha: 1)))
-            
-            .edgesIgnoringSafeArea(.all)
+    private func returnColorForTotalWorkTime(totalWorkTime: Int) -> [UIColor] {
+        switch totalWorkTime {
+        case 0...60:
+            return [#colorLiteral(red: 0, green: 0.9742360711, blue: 0.4932131767, alpha: 1), #colorLiteral(red: 0, green: 0.8495182395, blue: 0.3787478805, alpha: 1)]
+        case 61...150:
+            return [#colorLiteral(red: 1, green: 0.5692248344, blue: 0, alpha: 1), #colorLiteral(red: 0.9939569831, green: 0.4086410701, blue: 0, alpha: 1)]
+        case 151...500:
+            return [#colorLiteral(red: 1, green: 0.9513885379, blue: 0, alpha: 1), #colorLiteral(red: 0.9040049911, green: 0.8368050456, blue: 0, alpha: 1)]
+        case 501...1000:
+            return [#colorLiteral(red: 0.6624877453, green: 0.5958624482, blue: 1, alpha: 1), #colorLiteral(red: 0.5398910642, green: 0.4785549045, blue: 0.868490696, alpha: 1)]
+        default:
+            return [#colorLiteral(red: 0.7325866818, green: 0.9595095515, blue: 0, alpha: 1), #colorLiteral(red: 0.6896815896, green: 0.8837340474, blue: 0, alpha: 1)]
+        }
     }
 }
+
+
 
 

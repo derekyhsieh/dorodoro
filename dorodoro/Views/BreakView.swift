@@ -14,6 +14,7 @@ struct BreakView: View {
     @State private var showCompletedWorkPopup = false
     @State var timeRemaining: Int
     let fullTime: Int
+    @AppStorage("WorkMinutesTotal") var WorkMinutesTotal = 0
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State var sentBreakNotification = false
     @State private var leftDateTime = Date()
@@ -137,7 +138,7 @@ struct BreakView: View {
         }
         .onAppear {
             
-            
+            WorkMinutesTotal += workTime
             playSound(sound: "success", type: "mp3")
             sendNotification(title: "Work period is over", subtitle: "Take a short break", timeInterval: 1)
             sendNotification(title: "break is over", subtitle: "Let's get back to work", timeInterval: TimeInterval(fullTime))

@@ -144,6 +144,7 @@ import SSToastMessage
             
             // check if is first time logging in
             
+            
             let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
             if !launchedBefore  {
                 
@@ -179,11 +180,14 @@ import SSToastMessage
             
             Spacer(minLength: 30)
             
-                Text("Drag the Bottom Tab to change work and break time")
+                Text("Drag the Bottom Tab to change")
                     .bold()
                     .foregroundColor(.white)
+            Text("work and break time")
+                .bold()
+                .foregroundColor(.white)
             Text("Tap to dismiss")
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(Color.white.opacity(0.8))
             
         }
         .padding()
@@ -199,9 +203,11 @@ import SSToastMessage
                 Text("Tap 'dorodoro' to get your total work stats")
                     .bold()
                     .foregroundColor(.white)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.9)
                     
             Text("Tap to dismiss")
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(Color.white.opacity(0.8))
             
             Spacer(minLength: 50)
             

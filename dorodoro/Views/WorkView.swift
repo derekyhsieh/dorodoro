@@ -90,7 +90,7 @@ struct WorkView: View {
                         
                         if sleep > 10 {
                             if timeRemaining > 60 {
-                                Text("\(secondsToMinutes(seconds: self.timeRemaining))")
+                                Text("\(secondsToMinutes(seconds: self.timeRemaining))" == "00" ? "60" : "\(secondsToMinutes(seconds: self.timeRemaining))")
                                     .foregroundColor(.white)
                                     .font(.system(size: 70, design: .rounded))
                                     .bold()

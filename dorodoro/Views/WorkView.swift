@@ -12,7 +12,8 @@ struct WorkView: View {
     @Binding var appState: Int
     let screen = UIScreen.main.bounds
     @State var showCancelView = false
-
+    @AppStorage("WorkMinutesTotal") var WorkMinutesTotal = 0
+    
     @State var timeRemaining: Int
     let fullTime: Int
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -159,7 +160,7 @@ struct WorkView: View {
             } else {
                 UIApplication.shared.isIdleTimerDisabled = false
                 appState = 2
-               
+                WorkMinutesTotal += fullTime
             }
                       
         }

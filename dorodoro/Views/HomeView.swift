@@ -7,17 +7,23 @@
 
 import SwiftUI
 import PermissionsSwiftUI
+import SSToastMessage
 
  struct HomeView: View {
     
     
     let screen = UIScreen.main.bounds
+    let capsuleWidth = UIScreen.main.bounds.width - 100
     @Binding var appState: Int
     @State var showPermissions = false
     @State var draggedOffset = Double(UIScreen.main.bounds.height / 1.2)
     @AppStorage("WorkMinutesTotal") var WorkMinutesTotal = 0
     @Binding var workTime: Int
     @Binding var breakTime: Int
+    @State var showToast = false
+    @State var showTutorialOne = false
+    @State var showTutorialTwo = false
+    
     
     
     var body: some View {
@@ -61,7 +67,28 @@ import PermissionsSwiftUI
                         .padding()
                         .padding(.leading)
                         .padding(.top)
+                        .onTapGesture {
+                            showToast.toggle()
+                        }
                     Spacer()
+                    
+                    if !showTutorialOne && !showTutorialTwo {
+                        Button(action: {
+                            
+                            showTutorialOne = true
+                            
+                        }) {
+                            Image(systemName: "questionmark")
+                                .padding()
+                                .padding(.trailing)
+                                .padding(.top)
+                                .foregroundColor(WorkMinutesTotal > 150 && WorkMinutesTotal < 501 ? .black : .white)
+                                .font(.system(size: 25, weight: .bold, design: .rounded))
+                                
+                        }
+                    }
+                    
+         
                 }
                 
                 //Play button
@@ -97,32 +124,139 @@ import PermissionsSwiftUI
                 
             }
         }
- 
+        .present(isPresented: self.$showToast, type: .floater(), position: .top,  animation: Animation.spring(), closeOnTapOutside: true) {
+                 self.createTopFloaterView()
+             }
+        
+        .present(isPresented: self.$showTutorialOne, type: .toast, position: .top,  animation: Animation.spring(), autohideDuration: Double.greatestFiniteMagnitude, closeOnTap: true, onTap: {
+            self.showTutorialTwo = true
+        }, closeOnTapOutside: false) {
+                
+            self.createTopTutorialToast()
+             }
+        
+        .present(isPresented: self.$showTutorialTwo, type: .toast, position: .bottom,  animation: Animation.spring(), autohideDuration: Double.greatestFiniteMagnitude, closeOnTap: true, closeOnTapOutside: false) {
+                
+            self.createBottomTutorialToast()
+             }
+        
         .onAppear {
             
             // check if is first time logging in
             
-            if UserDefaults.standard.bool(forKey: "First Launch") == true {
-                self.draggedOffset = UserDefaults.standard.double(forKey: "draggedOffset")
+            let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
+            if !launchedBefore  {
+                
+                UserDefaults.standard.setValue(Double(UIScreen.main.bounds.height / 1.2), forKey: "draggedOffset")
+             
+                self.showTutorialOne = true
+                UserDefaults.standard.set(true, forKey: "launchedBefore")
             } else {
-                UserDefaults.standard.setValue(true, forKey: "First Launch")
+                self.draggedOffset = UserDefaults.standard.double(forKey: "draggedOffset")
             }
+         
             
            
-            showPermissions = true
             self.workTime = Int((Double(screen.height + 100) - self.draggedOffset)/10.2) < 25 ? 25 :  Int((Double(screen.height) + 100 - self.draggedOffset)/10.2)
            
                
             
-                
+            showPermissions = true
             self.breakTime = Int(workTime/4)
+           
             
             
             
         }
         .JMModal(showModal: $showPermissions, for: [.notification])
         
+
+
        
+    }
+    
+    func createTopTutorialToast() -> some View {
+        VStack(alignment: .leading) {
+            
+            Spacer(minLength: 30)
+            
+                Text("Drag the Bottom Tab to change work and break time")
+                    .bold()
+                    .foregroundColor(.white)
+            Text("Tap to dismiss")
+                .foregroundColor(.white.opacity(0.8))
+            
+        }
+        .padding()
+        .frame(width: UIScreen.main.bounds.width, height: 130)
+        .background(Color(#colorLiteral(red: 0.2511832416, green: 0.6168131232, blue: 0.8950596452, alpha: 1)))
+    }
+    
+    func createBottomTutorialToast() -> some View {
+        VStack(alignment: .leading) {
+            
+            
+            
+                Text("Tap 'dorodoro' to get your total work stats")
+                    .bold()
+                    .foregroundColor(.white)
+                    
+            Text("Tap to dismiss")
+                .foregroundColor(.white.opacity(0.8))
+            
+            Spacer(minLength: 50)
+            
+        }
+        .padding()
+        .padding(.top, 40)
+        .frame(width: UIScreen.main.bounds.width, height: 150)
+        .background(Color(#colorLiteral(red: 0.2511832416, green: 0.6168131232, blue: 0.8950596452, alpha: 1)))
+    }
+    
+    func createTopFloaterView() -> some View {
+        VStack(alignment: .leading) {
+            
+             Text("Total Work Minutes: \(WorkMinutesTotal)")
+                .foregroundColor(.white)
+                .bold()
+                .font(.title2)
+                .padding(.bottom)
+            
+            ZStack(alignment: .leading) {
+                Capsule()
+                    .frame(width: capsuleWidth, height: 5)
+                    .foregroundColor(Color(returnColorForTotalWorkTime(totalWorkTime: WorkMinutesTotal)[0]))
+                Capsule()
+                    .frame(width: CGFloat(Double(WorkMinutesTotal) / Double(WorkMinutesTotal + returnMinutesUntilNextRank(totalWorkTime: WorkMinutesTotal))) * capsuleWidth, height: 5)
+                    .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+            }
+            
+            Text(WorkMinutesTotal > 1001 ? "Already at highest rank" : "\(returnMinutesUntilNextRank(totalWorkTime: WorkMinutesTotal)) minutes until next rank")
+                .foregroundColor(Color.white.opacity(0.7))
+               .bold()
+               .font(.title3)
+                .padding(.top)
+        }
+        .frame(width: UIScreen.main.bounds.width - 30, height: 150)
+        .background(Color(returnColorForTotalWorkTime(totalWorkTime: WorkMinutesTotal)[1]))
+        .cornerRadius(15)
+        .shadow(color: Color.black.opacity(0.8), radius: 0.25, x: 0, y: 0)
+    }
+    
+    private func returnMinutesUntilNextRank(totalWorkTime: Int) -> Int {
+        switch totalWorkTime {
+        case 0...60:
+            return 61 - totalWorkTime
+        case 61...150:
+            return 151 - totalWorkTime
+        case 151...500:
+            return 501 - totalWorkTime
+        case 501...1000:
+            return 1001 - totalWorkTime
+        default:
+            return -1
+        }
+
     }
     
     private func returnColorForTotalWorkTime(totalWorkTime: Int) -> [UIColor] {

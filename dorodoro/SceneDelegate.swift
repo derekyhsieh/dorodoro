@@ -27,10 +27,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             let workTotalMinutes = UserDefaults.standard.integer(forKey: "WorkMinutesTotal")
             
-            if workTotalMinutes > 150 &&  workTotalMinutes < 501 {
+            if workTotalMinutes > 150 && workTotalMinutes <= 500 {
                 
-                
-                    window.rootViewController = UIHostingController(rootView: ContentView())
+                    window.rootViewController = LightHostingController(rootView: ContentView())
                     self.window = window
                     window.makeKeyAndVisible()
                 
@@ -82,3 +81,10 @@ class DarkHostingController<ContentView> : UIHostingController<ContentView> wher
         .lightContent
     }
 }
+
+class LightHostingController<ContentView> : UIHostingController<ContentView> where ContentView : View {
+    override dynamic open var preferredStatusBarStyle: UIStatusBarStyle {
+        .darkContent
+    }
+}
+

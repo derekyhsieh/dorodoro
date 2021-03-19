@@ -16,10 +16,12 @@
 		4BC4AA2025F9ECAA0052507A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC4AA1F25F9ECAA0052507A /* HomeView.swift */; };
 		650F4AE125FFFB4700D5F35E /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650F4AE025FFFB4700D5F35E /* CustomAlertView.swift */; };
 		650F4AE42600002F00D5F35E /* SavedDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650F4AE32600002F00D5F35E /* SavedDefaults.swift */; };
+		65720EA92603D92B00D6AE91 /* SSToastMessage in Frameworks */ = {isa = PBXBuildFile; productRef = 65720EA82603D92B00D6AE91 /* SSToastMessage */; };
 		6592893925FC8E1400F378F7 /* PermissionsSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6592893825FC8E1400F378F7 /* PermissionsSwiftUI */; };
 		65C3180F25FD4B0600A073FC /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C3180E25FD4B0600A073FC /* Notification.swift */; };
 		65C3181625FD5C3000A073FC /* success.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 65C3181525FD5C3000A073FC /* success.mp3 */; };
 		65C3181A25FD5C6900A073FC /* PlaySound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C3181925FD5C6900A073FC /* PlaySound.swift */; };
+		65C863272603DF9400258E82 /* StatsPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C863262603DF9400258E82 /* StatsPopup.swift */; };
 		65CFD4F725FA99A8003963C7 /* WorkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CFD4F625FA99A8003963C7 /* WorkView.swift */; };
 		65F0D17425FC75640079B6A9 /* BreakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F0D17325FC75640079B6A9 /* BreakView.swift */; };
 /* End PBXBuildFile section */
@@ -39,6 +41,7 @@
 		65C3180E25FD4B0600A073FC /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Notification.swift; path = ../../../Notification.swift; sourceTree = "<group>"; };
 		65C3181525FD5C3000A073FC /* success.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = success.mp3; path = ../../../Downloads/success.mp3; sourceTree = "<group>"; };
 		65C3181925FD5C6900A073FC /* PlaySound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaySound.swift; sourceTree = "<group>"; };
+		65C863262603DF9400258E82 /* StatsPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsPopup.swift; sourceTree = "<group>"; };
 		65CFD4F625FA99A8003963C7 /* WorkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkView.swift; sourceTree = "<group>"; };
 		65F0D17325FC75640079B6A9 /* BreakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -48,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65720EA92603D92B00D6AE91 /* SSToastMessage in Frameworks */,
 				6592893925FC8E1400F378F7 /* PermissionsSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -105,6 +109,7 @@
 				65CFD4F625FA99A8003963C7 /* WorkView.swift */,
 				65F0D17325FC75640079B6A9 /* BreakView.swift */,
 				650F4AE025FFFB4700D5F35E /* CustomAlertView.swift */,
+				65C863262603DF9400258E82 /* StatsPopup.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -135,6 +140,7 @@
 			name = dorodoro;
 			packageProductDependencies = (
 				6592893825FC8E1400F378F7 /* PermissionsSwiftUI */,
+				65720EA82603D92B00D6AE91 /* SSToastMessage */,
 			);
 			productName = dorodoro;
 			productReference = 4BC4AA0525F9E7820052507A /* dorodoro.app */;
@@ -165,6 +171,7 @@
 			mainGroup = 4BC4A9FC25F9E7810052507A;
 			packageReferences = (
 				6592893725FC8E1400F378F7 /* XCRemoteSwiftPackageReference "PermissionsSwiftUI" */,
+				65720EA72603D92B00D6AE91 /* XCRemoteSwiftPackageReference "SSToastMessage" */,
 			);
 			productRefGroup = 4BC4AA0625F9E7820052507A /* Products */;
 			projectDirPath = "";
@@ -204,6 +211,7 @@
 				4BC4AA0B25F9E7820052507A /* SceneDelegate.swift in Sources */,
 				65CFD4F725FA99A8003963C7 /* WorkView.swift in Sources */,
 				4BC4AA0D25F9E7820052507A /* ContentView.swift in Sources */,
+				65C863272603DF9400258E82 /* StatsPopup.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,6 +413,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		65720EA72603D92B00D6AE91 /* XCRemoteSwiftPackageReference "SSToastMessage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SimformSolutionsPvtLtd/SSToastMessage.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		6592893725FC8E1400F378F7 /* XCRemoteSwiftPackageReference "PermissionsSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jevonmao/PermissionsSwiftUI";
@@ -416,6 +432,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		65720EA82603D92B00D6AE91 /* SSToastMessage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 65720EA72603D92B00D6AE91 /* XCRemoteSwiftPackageReference "SSToastMessage" */;
+			productName = SSToastMessage;
+		};
 		6592893825FC8E1400F378F7 /* PermissionsSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 6592893725FC8E1400F378F7 /* XCRemoteSwiftPackageReference "PermissionsSwiftUI" */;
